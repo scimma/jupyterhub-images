@@ -37,7 +37,7 @@ https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html"
     fi
 
     pf_check "access to ECR"
-    if aws ecr describe-repositories --repository-names scimma-admin-web > /dev/null; then
+    if aws ecr describe-repositories > /dev/null; then
         pf_ok
     else
         pf_fail "Unable to access ECR. Are your credentials set up correctly? Try running 'aws configure'."
@@ -53,24 +53,8 @@ check_for_docker() {
     fi
 }
 
-check_for_kubectl() {
-    pf_check "kubectl"
-    if command -v kubectl > /dev/null; then
-        pf_ok
-    else
-        pf_fail "kubectl, the Kubernetes CLI, must be installed. See https://kubernetes.io/docs/tasks/tools/install-kubectl/."
-    fi
-
-    pf_check "kubectl configuration"
-    if kubectl describe deployments hopdevel-scimma-admin >/dev/null; then
-        pf_ok
-    else
-        pf_fail "kubectl is not configured to work with SCIMMA's EKS. Try running 'aws eks --region us-west-2 update-kubconfig --name hopDevelEksCluster'."
-    fi
-}
 
 run_preflight_checks() {
     check_for_docker
     check_for_aws
-    check_for_kubectl
 }
