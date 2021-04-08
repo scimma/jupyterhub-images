@@ -7,6 +7,7 @@ USER $NB_UID
 # notebook environment and utilities
 RUN conda install -c defaults nb_conda_kernels
 RUN conda install -c defaults -c conda-forge nbgitpuller
+RUN pip install nbresuse
 
 # install additional general data science and astronomy conda packages
 RUN conda install -c defaults -c conda-forge munch tqdm pv
